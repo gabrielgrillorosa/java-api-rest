@@ -1,14 +1,17 @@
 package com.gabriel.lancamentos.api.service;
 
 import java.util.Optional;
+import java.util.List;
+
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
 import com.gabriel.lancamentos.api.model.Pessoa;
 import com.gabriel.lancamentos.api.repository.PessoaRepository;
+
+
 
 @Service
 public class PessoaService {
@@ -17,23 +20,35 @@ public class PessoaService {
 	private PessoaRepository pessoaRepository;
 
 	public Pessoa atualizar(Long codigo, Pessoa pessoa) {
-		Optional<Pessoa> pessoaSalva = buscarPessoaPeloCodigo(codigo);		
+		Pessoa pessoaSalva = buscarPessoaPeloCodigo(codigo);		
 		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
-		return pessoaRepository.save(pessoaSalva.get());
+		return pessoaRepository.save(pessoaSalva);
 	}
 
-	public void atualizarPropriedadeAtivo(Long codigo, Boolean ativo) {
-		Pessoa pessoaSalva = buscarPessoaPeloCodigo(codigo).get();
-		
-		pessoaRepository.save(pessoaSalva);
-	}
-	
-	private Optional<Pessoa> buscarPessoaPeloCodigo(Long codigo) {
-		Optional<Pessoa> pessoaSalva = pessoaRepository.findById(codigo);
+	public Pessoa atualizarPropriedadeAtivo(Long codigo, Boolean ativo) {
+		Pessoa pessoaSalva = buscarPessoaPeloCodigo(codigo);
 		if (pessoaSalva == null) {
 			throw new EmptyResultDataAccessException(1);
 		}
+		pessoaSalva.setAtivo(ativo);
+		return pessoaRepository.save(pessoaSalva);
+	}
+	
+	private Pessoa buscarPessoaPeloCodigo(Long codigo) {
+		Pessoa pessoaSalva = pessoaRepository.findById(codigo).orElseThrow( () ->
+			new EmptyResultDataAccessException(1));
 		return pessoaSalva;
 	}
+	
+	public Pessoa salvar(Pessoa pessoa) {
+		return  this.pessoaRepository.save(pessoa);		
+		
+	}
+	
+	public List<Pessoa> listart() {
+		return  this.pessoaRepository.findAll();		
+		
+	}
+
 	
 }

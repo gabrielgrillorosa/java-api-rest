@@ -11,15 +11,25 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	
 	</parent>
-	<groupId>com.example.lancamentos</groupId>
+	
+	<groupId>com.gabriel.lancamentos</groupId>
 	<artifactId>lancamentos-api</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
 	<name>lancamentos-api</name>
 	<description>Api de lancamentos com spring</description>
+	
 	<properties>
 		<java.version>11</java.version>
 	</properties>
+	
 	<dependencies>
+	
+	   <!-- Dependencia para utiizar banco de dados de teste-->
+	    <dependency>
+        	<groupId>com.h2database</groupId>
+        	<artifactId>h2</artifactId>
+        	<scope>test</scope>
+    	</dependency>
 	
 	   <!-- Dependencia para utiizar metaModel JPA-->
 		<dependency>

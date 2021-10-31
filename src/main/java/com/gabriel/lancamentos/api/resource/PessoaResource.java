@@ -1,5 +1,6 @@
 package com.gabriel.lancamentos.api.resource;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +10,6 @@ import com.gabriel.lancamentos.api.event.RecursoCriadoEvent;
 import com.gabriel.lancamentos.api.model.Pessoa;
 import com.gabriel.lancamentos.api.repository.PessoaRepository;
 import com.gabriel.lancamentos.api.service.PessoaService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -37,6 +37,13 @@ public class PessoaResource {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 
+
+	@GetMapping
+	public List<Pessoa> listar() {
+		return  pessoaRepository.findAll();	
+	}
+	
+	
 	@PostMapping
 	public ResponseEntity<Pessoa> criar(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response) {
 		Pessoa pessoaSalva = pessoaRepository.save(pessoa);		
